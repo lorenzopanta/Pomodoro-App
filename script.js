@@ -1,4 +1,4 @@
-const bells = new Audio('./sounds/bell.wav');         //can't use it on the codédex builds unfortunately 
+const bells = new Audio('bell.wav');         //can't use it on the codédex builds unfortunately 
 const startBtn = document.querySelector('.btn-start'); 
 const resetBtn = document.querySelector('.btn-reset');
 const pauseBtn = document.querySelector('.btn-pause'); 
