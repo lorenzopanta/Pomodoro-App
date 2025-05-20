@@ -5,13 +5,13 @@ const completedCounter = document.getElementById("completed-counter");
 const uncompletedCounter = document.getElementById("uncompleted-counter");
 
 function addTask() {
-    const task = inputBox.value.trim();     //value prende il valore, trim toglie gli spazi
+    const task = inputBox.value.trim();     //.value takes the value, .trim() removes spaces
     if(!task) {
         alert("Please write down a task");
         return;
     }
 
-    const li = document.createElement("li");    //creo un elemento <li> da aggiungere ogni volta che clicco il pulsante"Add"
+    const li = document.createElement("li");    //I create an element <li> that is added each time I click "Add"
     li.innerHTML = `
       <label>
         <input type="checkbox">
@@ -22,7 +22,7 @@ function addTask() {
     `;
 
     listContainer.appendChild(li);
-    inputBox.value = "";               //rimuove il testo dall'input type text dopo averlo inserito
+    inputBox.value = "";               //removes text from the input form after submit
 
     //buttons for the new li element
     const checkbox = li.querySelector("input");
@@ -94,7 +94,7 @@ let secondDiv = document.querySelector('.seconds');
 let startingMinutes = document.querySelector('.minutes').textContent;
 let startingSeconds = document.querySelector('.seconds').textContent;
 
-
+//let breakTimeNow = false;
 
 //MOST IMPORTANT FUNCTION: updates the timer by going down by 1 second
 const updateSeconds = () => {
@@ -115,28 +115,49 @@ const updateSeconds = () => {
     startedOrOver = true;
     bells.play();
     clearInterval(myInterval);    //this functions cancels the timed repeated actions enstablished by the SetInterval()
+
+    //START THE PAUSE TIMER
+    /*
+    if(breakTimeNow==false){
+      breakTimer();
+    }
+    else{
+      return;
+    }
+    */
   }
 }
 
 
+/*
+//BREAK TIMER
+const breakTimer = () => {
+
+  let coso = Number.parseInt(startingMinutes);
+  totalSeconds = Math.floor(coso / 3)*60;
+
+  breakTimeNow=true;
+  //CAMBIARE TESTO IN CIMA PER DIRE CHE SIAMO IN PAUSA
+  myInterval = setInterval(updateSeconds, 1000);
+}
+*/
 
 //BUTTONS ------------------------------------------------
 //function to start the timer
 const appTimer = () => {
   if(paused == true){
     alert("Timer is paused, can't start now");
+    return;
   }
-  else{
-    startedOrOver = false;
-    const sessionAmount = Number.parseInt(session.textContent);  //converts minutes into a single big number
+  startedOrOver = false;
+  const sessionAmount = Number.parseInt(session.textContent);  //converts minutes into a a number
 
-    if (isRunning == false) {
-      isRunning = true;                      //if false, it means that the timer is running, you can't start it again
-      totalSeconds = sessionAmount * 60;
-      myInterval = setInterval(updateSeconds, 1000);    //setInterval() executes "updateSeconds" every 1 second
-    } else {
-      alert('Session has already started.');
-    }
+  if (isRunning == false) {
+    isRunning = true;                      //if true, it means that the timer is running, you can't start it again
+    totalSeconds = sessionAmount * 60;
+    myInterval = setInterval(updateSeconds, 1000);    //setInterval() executes "updateSeconds" every 1 second
+  } else {
+    alert('Session has already started.');
   }
 };
 
@@ -150,6 +171,7 @@ const appReset = () => {
       isRunning = false;
       clearInterval(myInterval);
 
+      startedOrOver = true;
       minuteDiv.textContent = startingMinutes;
       secondDiv.textContent = startingSeconds;
     }
@@ -161,22 +183,24 @@ const appReset = () => {
 const appPause = () => {
   if(startedOrOver == true){
     alert("Cannot Pause, session has not started yet or has ended");
+    return;
   }
-  else{
-    if(isRunning == true){
-      paused = true;
-      pauseBtn.classList.add("paused");   //using a class so that the button changes color when clicked
-      isRunning = false;
-      clearInterval(myInterval);
-    }
-    else {
-      paused = false;
-      pauseBtn.classList.remove("paused");
-      isRunning = true;
-      myInterval = setInterval(updateSeconds, 1000); 
-    }
+  if(isRunning == true){
+    paused = true;
+    pauseBtn.classList.add("paused");   //using a class so that the button changes color when clicked
+    isRunning = false;
+    clearInterval(myInterval);
   }
-}
+  else {
+    paused = false;
+    pauseBtn.classList.remove("paused");
+    isRunning = true;
+    myInterval = setInterval(updateSeconds, 1000); 
+  }
+};
+
+
+//li.classList.toggle("completed", checkbox.checked);     //if checkbox.checked is true -> add class, if false remove class
 
 startBtn.addEventListener('click', appTimer);
 resetBtn.addEventListener('click', appReset);
@@ -191,6 +215,10 @@ const inputTime = document.getElementById("inputTime");
 setBtn.addEventListener("click", (event) => {
     event.preventDefault();              //prevents page from refreshing
 
+      if(paused){
+        alert("Cannot set a new time, timer is currently paused.");
+        return;
+      }
       const rawValue = inputTime.value.trim();
       //Checks if the value contains a dot or a comma
       if (rawValue.includes(",") || rawValue.includes(".")) {
@@ -210,9 +238,3 @@ setBtn.addEventListener("click", (event) => {
     }
 });
 
-
-
-
-//1 - aggiungere class toggle al pause button per cambiare colore quando lo clicchi
-//2 - se premi pause quando il timer non è startato si bugga
-//3 - se cambi il tempo quando il timer è in pausa, si bugga
