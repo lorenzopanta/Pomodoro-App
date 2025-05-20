@@ -1,4 +1,82 @@
-const bells = new Audio('bell.wav');         //can't use it on the codédex builds unfortunately 
+//THIS CODE IS FOR THE TO-DO LIST
+const inputBox = document.getElementById("input-box");     //<input type="text">
+const listContainer = document.getElementById("list-container");    //<ul>
+const completedCounter = document.getElementById("completed-counter");
+const uncompletedCounter = document.getElementById("uncompleted-counter");
+
+function addTask() {
+    const task = inputBox.value.trim();     //value prende il valore, trim toglie gli spazi
+    if(!task) {
+        alert("Please write down a task");
+        return;
+    }
+
+    const li = document.createElement("li");    //creo un elemento <li> da aggiungere ogni volta che clicco il pulsante"Add"
+    li.innerHTML = `
+      <label>
+        <input type="checkbox">
+        <span>${task}</span>
+      </label>
+      <span class="edit-btn">Edit</span>
+      <span class="delete-btn">Delete</span>
+    `;
+
+    listContainer.appendChild(li);
+    inputBox.value = "";               //rimuove il testo dall'input type text dopo averlo inserito
+
+    //buttons for the new li element
+    const checkbox = li.querySelector("input");
+    const editBtn = li.querySelector(".edit-btn");
+    const taskSpan = li.querySelector("span");          //allows us to edit a specific task when edit is clicked
+    const deleteBTn = li.querySelector(".delete-btn");
+
+    
+   checkbox.addEventListener("click", function() {
+      li.classList.toggle("completed", checkbox.checked);     //if checkbox.checked is true -> add class, if false remove class
+      updateCounters();
+    });
+
+   editBtn.addEventListener("click", function() {
+    const update = prompt("Edit task:");
+    if(update !== null){
+      taskSpan.textContent = update;
+      li.classList.remove("completed");
+
+      checkbox.checked = false;
+      updateCounters();
+    }
+   });
+
+   deleteBTn.addEventListener("click", function() {
+    if(confirm("Are you sure you want to delete this task?")) {
+      listContainer.removeChild(li);
+
+      updateCounters();
+    }
+   });
+
+   updateCounters();
+}
+
+function updateCounters() {
+  const completedTasks = document.querySelectorAll(".completed").length;  //.length property is used to count the number of elements with this class
+  const uncompletedTasks = document.querySelectorAll("li:not(.completed)").length;
+
+  completedCounter.textContent = completedTasks;
+  uncompletedCounter.textContent = uncompletedTasks;
+}
+
+
+
+
+
+
+
+
+
+
+//THIS CODE IS FOR THE POMODORO TIMER
+const bells = new Audio('bell.wav');
 const startBtn = document.querySelector('#btn-start'); 
 const resetBtn = document.querySelector('#btn-reset');
 const pauseBtn = document.querySelector('#btn-pause'); 
