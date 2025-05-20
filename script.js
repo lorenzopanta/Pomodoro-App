@@ -131,3 +131,10 @@ setBtn.addEventListener("click", (event) => {
       minuteDiv.textContent = inputValue;
     }
 });
+
+
+
+
+//1 - aggiungere class toggle al pause button per cambiare colore quando lo clicchi
+//2 - se premi pause quando il timer non è startato si bugga
+//3 - se cambi il tempo quando il timer è in pausa, si bugga
