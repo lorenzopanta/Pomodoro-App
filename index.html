@@ -14,7 +14,7 @@
 
       <!--APP TO-DO LIST -->
       <div id="todo-container">
-        <div id="headear">
+        <div id="todo-headear">
           <h1>To Do List</h1>
         </div>
 
@@ -51,14 +51,14 @@
           <div class="pomodoro-counter-box">
             <p><span class="minutes">45</span>:<span class="seconds">00</span></p>
           </div>
-          <button class="btn-start">start</button>
-          <button class="btn-reset">reset</button>
-          <button id="btn-pause-id" class="btn-pause">pause</button>
+          <button id="btn-start" class="pomodoro-btn">start</button>
+          <button id="btn-reset" class="pomodoro-btn">reset</button>
+          <button id="btn-pause" class="pomodoro-btn">pause</button>
         </div>
 
         <form>
           <br><br>
-          <label for="time">Set your own time<label><br>
+          <label for="inputTime" id="inputText">Set your own time</label><br>
           <input id="inputTime" type="number" min="0" max="999" placeholder="Minutes" maxlength="3" size="8">
           <input id="submitBtn" type="submit" value="Set time">
         </form>

@@ -1,7 +1,7 @@
 const bells = new Audio('bell.wav');         //can't use it on the codédex builds unfortunately 
-const startBtn = document.querySelector('.btn-start'); 
-const resetBtn = document.querySelector('.btn-reset');
-const pauseBtn = document.querySelector('.btn-pause'); 
+const startBtn = document.querySelector('#btn-start'); 
+const resetBtn = document.querySelector('#btn-reset');
+const pauseBtn = document.querySelector('#btn-pause'); 
 const session = document.querySelector('.minutes'); 
 let myInterval; 
 
